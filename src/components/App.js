@@ -1,20 +1,25 @@
 import Banner from './Banner'
 import Cart from './Cart'
 import Footer from './Footer'
-import QuestionForm from './QuestionForm'
 import ShoppingList from './ShoppingList'
-import ShoppingList1 from './ShoppingList1'
-import Test from './Test'
+import { useState, useEffect } from 'react'
 
 function App() {
+
+  const savedCart = localStorage.getItem('cart')
+  const [cart, updateCart] = useState(savedCart ? JSON.parse(savedCart) : [])
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  }, [cart])
+
     return (
       <div>
-        {/* <Banner />
-        <Cart /> */}
-        {/* <Test /> */}
-        {/* <ShoppingList1 /> */}
-        {/* <QuestionForm /> */}
-        <ShoppingList />
+        <Banner />
+        <div className='lmj-layout-inner'>
+          <Cart cart={cart} updateCart={updateCart}/>
+          <ShoppingList cart={cart} updateCart={updateCart}/>
+        </div>
         <Footer />
       </div>
     )
